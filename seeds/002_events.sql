@@ -1,4 +1,4 @@
-INSERT OR REPLACE INTO events (name, city, country, venue, latitude, longitude, start_date, end_date, description, tournament_number, season, status) VALUES
+INSERT INTO events (name, city, country, venue, latitude, longitude, start_date, end_date, description, tournament_number, season, status) VALUES
 (
   'Tokyo Tournament',
   'Tokyo',
@@ -96,4 +96,5 @@ INSERT OR REPLACE INTO events (name, city, country, venue, latitude, longitude, 
   6,
   '2026-27',
   'pending'
-);
+)
+ON CONFLICT DO NOTHING;

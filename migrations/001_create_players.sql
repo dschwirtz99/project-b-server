@@ -1,20 +1,20 @@
 CREATE TABLE IF NOT EXISTS players (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  slug TEXT UNIQUE NOT NULL,
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  slug VARCHAR(200) UNIQUE NOT NULL,
   photo_url TEXT,
-  position TEXT,
-  nationality TEXT,
-  nationality_code TEXT,
-  team TEXT,
+  position VARCHAR(50),
+  nationality VARCHAR(100),
+  nationality_code VARCHAR(3),
+  team VARCHAR(100),
   height_cm INTEGER,
   bio TEXT,
   stats_json TEXT,
-  social_instagram TEXT,
-  social_twitter TEXT,
+  social_instagram VARCHAR(255),
+  social_twitter VARCHAR(255),
   source_url TEXT,
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_players_slug ON players(slug);

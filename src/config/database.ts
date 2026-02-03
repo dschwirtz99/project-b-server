@@ -1,25 +1,26 @@
-import Database from 'better-sqlite3';
-import path from 'path';
-import fs from 'fs';
+import { Pool, QueryResult } from 'pg';
 import { env } from './env';
 
-let db: Database.Database;
+let pool: Pool;
 
-export function getDatabase(): Database.Database {
-  if (!db) {
-    const dbDir = path.dirname(env.DATABASE_PATH);
-    if (!fs.existsSync(dbDir)) {
-      fs.mkdirSync(dbDir, { recursive: true });
-    }
-    db = new Database(env.DATABASE_PATH);
-    db.pragma('journal_mode = WAL');
-    db.pragma('foreign_keys = ON');
+export function getPool(): Pool {
+  if (!pool) {
+    pool = new Pool({
+      connectionString: env.DATABASE_URL,
+      ssl: env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+      max: 10,
+      idleTimeoutMillis: 30000,
+    });
   }
-  return db;
+  return pool;
 }
 
-export function closeDatabase(): void {
-  if (db) {
-    db.close();
+export async function query(text: string, params?: any[]): Promise<QueryResult> {
+  return getPool().query(text, params);
+}
+
+export async function closeDatabase(): Promise<void> {
+  if (pool) {
+    await pool.end();
   }
 }

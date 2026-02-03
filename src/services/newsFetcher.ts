@@ -52,7 +52,7 @@ export async function fetchLatestNews(): Promise<void> {
         for (const article of response.data.articles) {
           if (!article.title || article.title === '[Removed]') continue;
 
-          const result = insertArticle({
+          const result = await insertArticle({
             title: article.title,
             description: article.description,
             source_name: article.source.name,
@@ -61,14 +61,14 @@ export async function fetchLatestNews(): Promise<void> {
             published_at: article.publishedAt,
           });
 
-          if (result.changes > 0) totalInserted++;
+          if (result.rowCount && result.rowCount > 0) totalInserted++;
         }
       }
     }
 
     // Prune old articles
-    const pruned = pruneOldArticles(90);
-    logger.info(`News fetch complete. Inserted ${totalInserted} new articles. Pruned ${pruned.changes} old articles.`);
+    const pruned = await pruneOldArticles(90);
+    logger.info(`News fetch complete. Inserted ${totalInserted} new articles. Pruned ${pruned.rowCount || 0} old articles.`);
   } catch (error) {
     logger.error(`News fetch failed: ${(error as Error).message}`);
   }

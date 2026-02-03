@@ -1,4 +1,4 @@
-INSERT OR REPLACE INTO news_articles (title, description, source_name, source_url, thumbnail_url, published_at) VALUES
+INSERT INTO news_articles (title, description, source_name, source_url, thumbnail_url, published_at) VALUES
 (
   'New hoops league Project B to make stop in Tokyo in April 2027',
   'Project B, the startup global basketball league, announced Tokyo as its first confirmed host city, with games at Toyota Arena from March 26 to April 4, 2027.',
@@ -102,4 +102,5 @@ INSERT OR REPLACE INTO news_articles (title, description, source_name, source_ur
   'https://www.eurohoops.net/en/womens-basketball/project-b-fiebich-jocyte/',
   NULL,
   '2026-01-05T13:00:00Z'
-);
+)
+ON CONFLICT (source_url) DO NOTHING;

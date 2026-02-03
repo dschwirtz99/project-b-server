@@ -1,4 +1,4 @@
-import { getDatabase } from '../config/database';
+import { query } from '../config/database';
 
 export interface PlayerRow {
   id: number;
@@ -39,58 +39,61 @@ export function formatPlayer(row: PlayerRow) {
   };
 }
 
-export function getAllPlayers(filters: {
+export async function getAllPlayers(filters: {
   team?: string;
   position?: string;
   nationality?: string;
   search?: string;
 }) {
-  const db = getDatabase();
-  let query = 'SELECT * FROM players WHERE 1=1';
+  let sql = 'SELECT * FROM players WHERE 1=1';
   const params: any[] = [];
+  let idx = 1;
 
   if (filters.team) {
-    query += ' AND team = ?';
+    sql += ` AND team = $${idx++}`;
     params.push(filters.team);
   }
   if (filters.position) {
-    query += ' AND position LIKE ?';
+    sql += ` AND position ILIKE $${idx++}`;
     params.push(`%${filters.position}%`);
   }
   if (filters.nationality) {
-    query += ' AND nationality = ?';
+    sql += ` AND nationality = $${idx++}`;
     params.push(filters.nationality);
   }
   if (filters.search) {
-    query += ' AND name LIKE ?';
+    sql += ` AND name ILIKE $${idx++}`;
     params.push(`%${filters.search}%`);
   }
 
-  query += ' ORDER BY name ASC';
+  sql += ' ORDER BY name ASC';
 
-  const rows = db.prepare(query).all(...params) as PlayerRow[];
-  return rows.map(formatPlayer);
+  const result = await query(sql, params);
+  return result.rows.map(formatPlayer);
 }
 
-export function getPlayerBySlug(slug: string) {
-  const db = getDatabase();
-  const row = db.prepare('SELECT * FROM players WHERE slug = ?').get(slug) as PlayerRow | undefined;
-  return row ? formatPlayer(row) : null;
+export async function getPlayerBySlug(slug: string) {
+  const result = await query('SELECT * FROM players WHERE slug = $1', [slug]);
+  return result.rows[0] ? formatPlayer(result.rows[0]) : null;
 }
 
-export function upsertPlayer(player: Partial<PlayerRow>) {
-  const db = getDatabase();
-  const stmt = db.prepare(`
+export async function upsertPlayer(player: Partial<PlayerRow>) {
+  const sql = `
     INSERT INTO players (name, slug, photo_url, position, nationality, nationality_code, team, height_cm, bio, stats_json, social_instagram, social_twitter, source_url)
-    VALUES (@name, @slug, @photo_url, @position, @nationality, @nationality_code, @team, @height_cm, @bio, @stats_json, @social_instagram, @social_twitter, @source_url)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
     ON CONFLICT(slug) DO UPDATE SET
-      photo_url = COALESCE(excluded.photo_url, players.photo_url),
-      position = COALESCE(excluded.position, players.position),
-      nationality = COALESCE(excluded.nationality, players.nationality),
-      team = COALESCE(excluded.team, players.team),
-      bio = COALESCE(excluded.bio, players.bio),
-      stats_json = COALESCE(excluded.stats_json, players.stats_json),
-      updated_at = datetime('now')
-  `);
-  return stmt.run(player);
+      photo_url = COALESCE(EXCLUDED.photo_url, players.photo_url),
+      position = COALESCE(EXCLUDED.position, players.position),
+      nationality = COALESCE(EXCLUDED.nationality, players.nationality),
+      team = COALESCE(EXCLUDED.team, players.team),
+      bio = COALESCE(EXCLUDED.bio, players.bio),
+      stats_json = COALESCE(EXCLUDED.stats_json, players.stats_json),
+      updated_at = NOW()
+  `;
+  return query(sql, [
+    player.name, player.slug, player.photo_url, player.position,
+    player.nationality, player.nationality_code, player.team,
+    player.height_cm, player.bio, player.stats_json,
+    player.social_instagram, player.social_twitter, player.source_url,
+  ]);
 }

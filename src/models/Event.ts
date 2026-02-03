@@ -1,4 +1,4 @@
-import { getDatabase } from '../config/database';
+import { query } from '../config/database';
 
 export interface EventRow {
   id: number;
@@ -26,8 +26,8 @@ export function formatEvent(row: EventRow) {
     city: row.city,
     country: row.country,
     venue: row.venue,
-    latitude: row.latitude,
-    longitude: row.longitude,
+    latitude: parseFloat(String(row.latitude)),
+    longitude: parseFloat(String(row.longitude)),
     startDate: row.start_date,
     endDate: row.end_date,
     description: row.description,
@@ -40,39 +40,37 @@ export function formatEvent(row: EventRow) {
   };
 }
 
-export function getAllEvents(filters: { status?: string; season?: string }) {
-  const db = getDatabase();
-  let query = 'SELECT * FROM events WHERE 1=1';
+export async function getAllEvents(filters: { status?: string; season?: string }) {
+  let sql = 'SELECT * FROM events WHERE 1=1';
   const params: any[] = [];
+  let idx = 1;
 
   if (filters.status) {
-    query += ' AND status = ?';
+    sql += ` AND status = $${idx++}`;
     params.push(filters.status);
   }
   if (filters.season) {
-    query += ' AND season = ?';
+    sql += ` AND season = $${idx++}`;
     params.push(filters.season);
   }
 
-  query += ' ORDER BY start_date ASC';
+  sql += ' ORDER BY start_date ASC';
 
-  const rows = db.prepare(query).all(...params) as EventRow[];
-  return rows.map(formatEvent);
+  const result = await query(sql, params);
+  return result.rows.map(formatEvent);
 }
 
-export function getEventById(id: number) {
-  const db = getDatabase();
-  const row = db.prepare('SELECT * FROM events WHERE id = ?').get(id) as EventRow | undefined;
-  return row ? formatEvent(row) : null;
+export async function getEventById(id: number) {
+  const result = await query('SELECT * FROM events WHERE id = $1', [id]);
+  return result.rows[0] ? formatEvent(result.rows[0]) : null;
 }
 
-export function getNextEvent() {
-  const db = getDatabase();
-  const row = db.prepare(`
+export async function getNextEvent() {
+  const result = await query(`
     SELECT * FROM events
-    WHERE status = 'upcoming' AND start_date >= date('now')
+    WHERE status = 'upcoming' AND start_date >= CURRENT_DATE
     ORDER BY start_date ASC
     LIMIT 1
-  `).get() as EventRow | undefined;
-  return row ? formatEvent(row) : null;
+  `);
+  return result.rows[0] ? formatEvent(result.rows[0]) : null;
 }

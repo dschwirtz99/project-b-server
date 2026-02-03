@@ -1,18 +1,18 @@
 import { Request, Response } from 'express';
 import { getAllEvents, getEventById, getNextEvent } from '../models/Event';
 
-export function listEvents(req: Request, res: Response): void {
+export async function listEvents(req: Request, res: Response): Promise<void> {
   const { status, season } = req.query;
-  const events = getAllEvents({
+  const events = await getAllEvents({
     status: status as string,
     season: season as string,
   });
   res.json({ events });
 }
 
-export function getEvent(req: Request, res: Response): void {
+export async function getEvent(req: Request, res: Response): Promise<void> {
   const id = parseInt(req.params.id as string, 10);
-  const event = getEventById(id);
+  const event = await getEventById(id);
 
   if (!event) {
     res.status(404).json({ error: 'Event not found' });
@@ -22,8 +22,8 @@ export function getEvent(req: Request, res: Response): void {
   res.json({ event });
 }
 
-export function nextEvent(_req: Request, res: Response): void {
-  const event = getNextEvent();
+export async function nextEvent(_req: Request, res: Response): Promise<void> {
+  const event = await getNextEvent();
 
   if (!event) {
     res.json({ event: null, message: 'No upcoming events' });

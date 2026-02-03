@@ -1,4 +1,4 @@
-INSERT OR REPLACE INTO players (name, slug, photo_url, position, nationality, nationality_code, team, height_cm, bio, stats_json, social_instagram, social_twitter) VALUES
+INSERT INTO players (name, slug, photo_url, position, nationality, nationality_code, team, height_cm, bio, stats_json, social_instagram, social_twitter) VALUES
 (
   'Nneka Ogwumike',
   'nneka-ogwumike',
@@ -166,4 +166,14 @@ INSERT OR REPLACE INTO players (name, slug, photo_url, position, nationality, na
   '{"ppg": 11.3, "rpg": 2.5, "apg": 4.1, "career_highlights": ["Japanese W League star", "Project B equity partner", "Japanese national team"]}',
   'mai.y_23',
   NULL
-);
+)
+ON CONFLICT (slug) DO UPDATE SET
+  photo_url = EXCLUDED.photo_url,
+  position = EXCLUDED.position,
+  nationality = EXCLUDED.nationality,
+  nationality_code = EXCLUDED.nationality_code,
+  bio = EXCLUDED.bio,
+  stats_json = EXCLUDED.stats_json,
+  social_instagram = EXCLUDED.social_instagram,
+  social_twitter = EXCLUDED.social_twitter,
+  updated_at = NOW();

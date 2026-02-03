@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import { getDatabase } from '../config/database';
+import { query } from '../config/database';
 import { logger } from '../utils/logger';
 
 interface PlayerStatsUpdate {
@@ -47,7 +47,6 @@ async function scrapeESPNPlayerStats(url: string): Promise<Record<string, any> |
 export async function enrichPlayerStats(): Promise<void> {
   logger.info('Starting player stats enrichment from ESPN...');
 
-  const db = getDatabase();
   let enrichedCount = 0;
 
   for (const [slug, url] of Object.entries(ESPN_PLAYER_URLS)) {
@@ -56,12 +55,12 @@ export async function enrichPlayerStats(): Promise<void> {
 
       if (freshStats) {
         // Merge with existing stats rather than replacing
-        const existing = db.prepare('SELECT stats_json FROM players WHERE slug = ?').get(slug) as { stats_json: string | null } | undefined;
-        const existingStats = existing?.stats_json ? JSON.parse(existing.stats_json) : {};
+        const existing = await query('SELECT stats_json FROM players WHERE slug = $1', [slug]);
+        const existingStats = existing.rows[0]?.stats_json ? JSON.parse(existing.rows[0].stats_json) : {};
         const merged = { ...existingStats, ...freshStats, espn_updated: new Date().toISOString() };
 
-        db.prepare('UPDATE players SET stats_json = ?, updated_at = datetime(\'now\') WHERE slug = ?')
-          .run(JSON.stringify(merged), slug);
+        await query('UPDATE players SET stats_json = $1, updated_at = NOW() WHERE slug = $2',
+          [JSON.stringify(merged), slug]);
 
         enrichedCount++;
       }

@@ -1,4 +1,4 @@
-import { getDatabase } from '../config/database';
+import { query } from '../config/database';
 
 export interface NewsRow {
   id: number;
@@ -24,40 +24,40 @@ export function formatArticle(row: NewsRow) {
   };
 }
 
-export function getNews(page: number = 1, limit: number = 20) {
-  const db = getDatabase();
+export async function getNews(page: number = 1, limit: number = 20) {
   const offset = (page - 1) * limit;
 
-  const rows = db.prepare(`
-    SELECT * FROM news_articles
-    ORDER BY published_at DESC
-    LIMIT ? OFFSET ?
-  `).all(limit, offset) as NewsRow[];
+  const result = await query(
+    'SELECT * FROM news_articles ORDER BY published_at DESC LIMIT $1 OFFSET $2',
+    [limit, offset]
+  );
 
-  const countResult = db.prepare('SELECT COUNT(*) as total FROM news_articles').get() as { total: number };
+  const countResult = await query('SELECT COUNT(*) as total FROM news_articles');
 
   return {
-    articles: rows.map(formatArticle),
-    total: countResult.total,
+    articles: result.rows.map(formatArticle),
+    total: parseInt(countResult.rows[0].total, 10),
     page,
     limit,
-    totalPages: Math.ceil(countResult.total / limit),
+    totalPages: Math.ceil(parseInt(countResult.rows[0].total, 10) / limit),
   };
 }
 
-export function insertArticle(article: Omit<NewsRow, 'id' | 'fetched_at'>) {
-  const db = getDatabase();
-  const stmt = db.prepare(`
-    INSERT OR IGNORE INTO news_articles (title, description, source_name, source_url, thumbnail_url, published_at)
-    VALUES (@title, @description, @source_name, @source_url, @thumbnail_url, @published_at)
-  `);
-  return stmt.run(article);
+export async function insertArticle(article: Omit<NewsRow, 'id' | 'fetched_at'>) {
+  const sql = `
+    INSERT INTO news_articles (title, description, source_name, source_url, thumbnail_url, published_at)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    ON CONFLICT (source_url) DO NOTHING
+  `;
+  return query(sql, [
+    article.title, article.description, article.source_name,
+    article.source_url, article.thumbnail_url, article.published_at,
+  ]);
 }
 
-export function pruneOldArticles(daysOld: number = 90) {
-  const db = getDatabase();
-  return db.prepare(`
-    DELETE FROM news_articles
-    WHERE published_at < datetime('now', '-' || ? || ' days')
-  `).run(daysOld);
+export async function pruneOldArticles(daysOld: number = 90) {
+  return query(
+    "DELETE FROM news_articles WHERE published_at < NOW() - INTERVAL '1 day' * $1",
+    [daysOld]
+  );
 }

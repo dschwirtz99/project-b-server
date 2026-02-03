@@ -31,14 +31,17 @@ export async function scrapePlayersFromProjectB(): Promise<void> {
 
     let scrapedCount = 0;
 
-    playerElements.each((_i, el) => {
+    const playerEls: any[] = [];
+    playerElements.each((_i, el) => { playerEls.push(el); });
+
+    for (const el of playerEls) {
       const $el = $(el);
       const name = $el.find('[class*="name"], h3, h4').first().text().trim();
       const position = $el.find('[class*="position"]').first().text().trim();
       const photoUrl = $el.find('img').first().attr('src') || null;
 
       if (name && name.length > 2) {
-        upsertPlayer({
+        await upsertPlayer({
           name,
           slug: slugify(name),
           photo_url: photoUrl,
@@ -55,7 +58,7 @@ export async function scrapePlayersFromProjectB(): Promise<void> {
         });
         scrapedCount++;
       }
-    });
+    }
 
     logger.info(`Player scrape complete. Upserted ${scrapedCount} players.`);
   } catch (error) {

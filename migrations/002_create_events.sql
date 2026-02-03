@@ -1,20 +1,20 @@
 CREATE TABLE IF NOT EXISTS events (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  city TEXT NOT NULL,
-  country TEXT NOT NULL,
-  venue TEXT,
-  latitude REAL NOT NULL,
-  longitude REAL NOT NULL,
-  start_date TEXT NOT NULL,
-  end_date TEXT NOT NULL,
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  city VARCHAR(100) NOT NULL,
+  country VARCHAR(100) NOT NULL,
+  venue VARCHAR(200),
+  latitude DECIMAL(10, 7) NOT NULL,
+  longitude DECIMAL(10, 7) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
   description TEXT,
   tournament_number INTEGER,
-  season TEXT DEFAULT '2026-27',
+  season VARCHAR(20) DEFAULT '2026-27',
   teams_json TEXT,
-  status TEXT DEFAULT 'upcoming' CHECK(status IN ('upcoming', 'live', 'completed', 'pending')),
-  created_at TEXT DEFAULT (datetime('now')),
-  updated_at TEXT DEFAULT (datetime('now'))
+  status VARCHAR(20) DEFAULT 'upcoming',
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE INDEX IF NOT EXISTS idx_events_status ON events(status);
