@@ -1,0 +1,94 @@
+export interface EventRow {
+    id: number;
+    name: string;
+    city: string;
+    country: string;
+    venue: string | null;
+    latitude: number;
+    longitude: number;
+    start_date: string;
+    end_date: string;
+    description: string | null;
+    tournament_number: number | null;
+    season: string;
+    teams_json: string | null;
+    status: string;
+    created_at: string;
+    updated_at: string;
+}
+export declare function formatEvent(row: EventRow): {
+    id: number;
+    name: string;
+    city: string;
+    country: string;
+    venue: string | null;
+    latitude: number;
+    longitude: number;
+    startDate: string;
+    endDate: string;
+    description: string | null;
+    tournamentNumber: number | null;
+    season: string;
+    teams: any;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+};
+export declare function getAllEvents(filters: {
+    status?: string;
+    season?: string;
+}): {
+    id: number;
+    name: string;
+    city: string;
+    country: string;
+    venue: string | null;
+    latitude: number;
+    longitude: number;
+    startDate: string;
+    endDate: string;
+    description: string | null;
+    tournamentNumber: number | null;
+    season: string;
+    teams: any;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+}[];
+export declare function getEventById(id: number): {
+    id: number;
+    name: string;
+    city: string;
+    country: string;
+    venue: string | null;
+    latitude: number;
+    longitude: number;
+    startDate: string;
+    endDate: string;
+    description: string | null;
+    tournamentNumber: number | null;
+    season: string;
+    teams: any;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+} | null;
+export declare function getNextEvent(): {
+    id: number;
+    name: string;
+    city: string;
+    country: string;
+    venue: string | null;
+    latitude: number;
+    longitude: number;
+    startDate: string;
+    endDate: string;
+    description: string | null;
+    tournamentNumber: number | null;
+    season: string;
+    teams: any;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+} | null;
+//# sourceMappingURL=Event.d.ts.map
