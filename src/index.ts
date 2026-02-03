@@ -51,20 +51,17 @@ function initDatabase(): void {
     logger.info('Migrations applied.');
   }
 
-  // Auto-run seeds if players table is empty
-  const playerCount = db.prepare('SELECT COUNT(*) as count FROM players').get() as { count: number };
-  if (playerCount.count === 0) {
-    const seedsDir = path.resolve(__dirname, '../seeds');
-    if (fs.existsSync(seedsDir)) {
-      const files = fs.readdirSync(seedsDir).sort();
-      for (const file of files) {
-        if (file.endsWith('.sql')) {
-          const sql = fs.readFileSync(path.join(seedsDir, file), 'utf-8');
-          db.exec(sql);
-        }
+  // Always run seeds (uses INSERT OR REPLACE to update existing data)
+  const seedsDir = path.resolve(__dirname, '../seeds');
+  if (fs.existsSync(seedsDir)) {
+    const files = fs.readdirSync(seedsDir).sort();
+    for (const file of files) {
+      if (file.endsWith('.sql')) {
+        const sql = fs.readFileSync(path.join(seedsDir, file), 'utf-8');
+        db.exec(sql);
       }
-      logger.info('Seeds applied.');
     }
+    logger.info('Seeds applied.');
   }
 }
 

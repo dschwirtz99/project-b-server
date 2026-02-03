@@ -1,4 +1,4 @@
-INSERT OR IGNORE INTO events (name, city, country, venue, latitude, longitude, start_date, end_date, description, tournament_number, season, status) VALUES
+INSERT OR REPLACE INTO events (name, city, country, venue, latitude, longitude, start_date, end_date, description, tournament_number, season, status) VALUES
 (
   'Tokyo Tournament',
   'Tokyo',

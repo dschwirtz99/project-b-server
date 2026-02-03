@@ -1,8 +1,8 @@
-INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nationality_code, team, height_cm, bio, stats_json, social_instagram, social_twitter) VALUES
+INSERT OR REPLACE INTO players (name, slug, photo_url, position, nationality, nationality_code, team, height_cm, bio, stats_json, social_instagram, social_twitter) VALUES
 (
   'Nneka Ogwumike',
   'nneka-ogwumike',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/2491205.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/203014.png',
   'Forward',
   'United States',
   'USA',
@@ -10,13 +10,13 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   190,
   'Six-time WNBA All-Star and 2016 WNBA MVP. Nneka Ogwumike was the first player to sign with Project B, bringing star power and leadership to the fledgling league. A Stanford graduate, she has been one of the most dominant forwards in WNBA history with career averages of 17.1 points and 7.3 rebounds per game.',
   '{"ppg": 17.1, "rpg": 7.3, "apg": 2.3, "career_highlights": ["2016 WNBA MVP", "6x WNBA All-Star", "2016 WNBA Champion"]}',
-  'nabornneka',
-  'Nabornneka'
+  'nnekaogwumike',
+  'nnekaogwumike'
 ),
 (
   'Alyssa Thomas',
   'alyssa-thomas',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/2529184.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/203826.png',
   'Forward',
   'United States',
   'USA',
@@ -24,13 +24,13 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   188,
   'The WNBA all-time triple-double leader, Alyssa Thomas is one of the most versatile players in basketball history. A perennial All-Star with the Connecticut Sun, she brings elite passing, rebounding, and defensive intensity to Project B.',
   '{"ppg": 13.5, "rpg": 8.2, "apg": 5.6, "career_highlights": ["All-time WNBA triple-double leader", "5x WNBA All-Star", "2x All-WNBA First Team"]}',
-  'alyssathomas25',
-  NULL
+  'athomas_25',
+  'athomas_25'
 ),
 (
   'Jonquel Jones',
   'jonquel-jones',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/3149391.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1627673.png',
   'Center',
   'Bahamas',
   'BHS',
@@ -38,13 +38,13 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   198,
   '2021 WNBA MVP and 2024 WNBA Finals MVP. Jonquel Jones is a dominant two-way center from the Bahamas who has proven herself as one of the best players in the world. Her combination of size, skill, and basketball IQ makes her a franchise cornerstone.',
   '{"ppg": 15.8, "rpg": 9.2, "apg": 2.8, "career_highlights": ["2021 WNBA MVP", "2024 WNBA Finals MVP", "2024 WNBA Champion"]}',
-  'jikiijay',
-  'jikiijay'
+  'jus242',
+  'jus242'
 ),
 (
   'Jewell Loyd',
   'jewell-loyd',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/2999048.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/204319.png',
   'Guard',
   'United States',
   'USA',
@@ -53,12 +53,12 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   'A dynamic scoring guard and WNBA champion, Jewell Loyd is known for her explosive offensive game and clutch performances. The former #1 overall pick has been a cornerstone of the Seattle Storm franchise and one of the league''s most electrifying players.',
   '{"ppg": 16.2, "rpg": 3.1, "apg": 3.8, "career_highlights": ["2x WNBA Champion", "3x WNBA All-Star", "2020 WNBA scoring champion"]}',
   'jewellloyd',
-  'JewellLoyd'
+  'jewellloyd'
 ),
 (
   'Kelsey Mitchell',
   'kelsey-mitchell',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/3908809.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1628909.png',
   'Guard',
   'Canada',
   'CAN',
@@ -67,12 +67,12 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   'A sharpshooting guard from Canada, Kelsey Mitchell is one of the most prolific three-point shooters in WNBA history. She helped lead the Indiana Fever to a deep playoff run and brings an elite scoring punch from beyond the arc.',
   '{"ppg": 14.8, "rpg": 2.1, "apg": 2.9, "career_highlights": ["2x WNBA All-Star", "Top 10 WNBA career 3-pointers", "2018 WNBA #2 overall pick"]}',
   'kelz_hoop',
-  NULL
+  'Kelz_Hoop'
 ),
 (
   'Kamilla Cardoso',
   'kamilla-cardoso',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/4902248.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1642289.png',
   'Center',
   'Brazil',
   'BRA',
@@ -80,13 +80,13 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   201,
   'A towering 6''7" center from Brazil, Kamilla Cardoso brings a rare combination of size and skill to the court. After starring at South Carolina and winning an NCAA Championship, she was drafted by the Chicago Sky and has quickly become one of the WNBA''s most imposing interior presences.',
   '{"ppg": 10.2, "rpg": 7.8, "apg": 1.2, "career_highlights": ["2024 NCAA Champion", "2024 WNBA #3 overall pick", "SEC Player of the Year"]}',
-  'kamillascardoso',
-  NULL
+  'kamilla_cardoso',
+  'Kamillascsilva'
 ),
 (
   'Leonie Fiebich',
   'leonie-fiebich',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/4912841.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1630142.png',
   'Forward',
   'Germany',
   'DEU',
@@ -94,13 +94,13 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   188,
   'A versatile German forward who made an immediate impact as a starter with the New York Liberty. Leonie Fiebich is known for her defensive prowess, three-point shooting, and basketball IQ that belies her young age. A rising star in international basketball.',
   '{"ppg": 8.1, "rpg": 3.4, "apg": 2.1, "career_highlights": ["2024 WNBA Champion", "New York Liberty starter", "German national team"]}',
-  'leoniefiebich',
+  '_leoniefiebich_',
   NULL
 ),
 (
   'Sophie Cunningham',
   'sophie-cunningham',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/4066310.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1629482.png',
   'Guard/Forward',
   'United States',
   'USA',
@@ -108,13 +108,13 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   185,
   'A fiery competitor known for her toughness and three-point shooting, Sophie Cunningham has been a fan favorite throughout her WNBA career. The Missouri alum brings veteran savvy, sharpshooting, and an infectious energy to every team she plays for.',
   '{"ppg": 7.5, "rpg": 2.8, "apg": 1.5, "career_highlights": ["WNBA veteran", "Elite 3-point shooter", "Missouri all-time leading scorer"]}',
-  'scunningham03',
-  NULL
+  'sophie_cham',
+  'sophaller'
 ),
 (
   'Janelle Salaun',
   'janelle-salaun',
-  'https://a.espncdn.com/combiner/i?img=/i/headshots/wnba/players/full/5106938.png&w=350&h=254',
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1642767.png',
   'Forward',
   'France',
   'FRA',
@@ -122,13 +122,13 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   185,
   'A talented French forward, Janelle Salaun is one of Europe''s most promising young basketball players. Known for her athleticism and two-way versatility, she represents the growing international talent pipeline feeding into Project B.',
   '{"ppg": 6.5, "rpg": 3.2, "apg": 1.4, "career_highlights": ["French national team", "International prospect", "2024 WNBA Draft pick"]}',
-  NULL,
+  'janelle.sln',
   NULL
 ),
 (
   'Juste Jocyte',
   'juste-jocyte',
-  NULL,
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1642794.png',
   'Forward',
   'Lithuania',
   'LTU',
@@ -136,13 +136,13 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   191,
   'A Lithuanian forward playing for Spar Girona in Spain, Juste Jocyte is considered one of the brightest young talents in European basketball. At just 19, she has already made waves in the EuroLeague and brings exciting potential to Project B''s global roster.',
   '{"ppg": 9.8, "rpg": 5.1, "apg": 1.8, "career_highlights": ["Spar Girona star", "EuroLeague Women standout", "Lithuanian national team"]}',
-  NULL,
+  'jocyteee',
   NULL
 ),
 (
   'Li Meng',
   'li-meng',
-  NULL,
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1641642.png',
   'Guard',
   'China',
   'CHN',
@@ -156,7 +156,7 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
 (
   'Mai Yamamoto',
   'mai-yamamoto',
-  NULL,
+  'https://cdn.wnba.com/headshots/wnba/latest/1040x760/1642769.png',
   'Guard',
   'Japan',
   'JPN',
@@ -164,6 +164,6 @@ INSERT OR IGNORE INTO players (name, slug, photo_url, position, nationality, nat
   173,
   'A Japanese guard and equity partner in Project B, Mai Yamamoto represents the league''s deep commitment to global basketball. Playing in the Japanese W League, she brings local star power especially important for the Tokyo tournament stop.',
   '{"ppg": 11.3, "rpg": 2.5, "apg": 4.1, "career_highlights": ["Japanese W League star", "Project B equity partner", "Japanese national team"]}',
-  NULL,
+  'mai.y_23',
   NULL
 );
